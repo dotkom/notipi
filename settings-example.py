@@ -1,0 +1,4 @@
+API_KEY = 'API_KEY_HERE'
+NAME = 'NAME'
+
+DEBUG = 1
