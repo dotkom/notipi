@@ -1,10 +1,10 @@
-#!/bin/env python2
+#!/usr/bin/env python
 from wiringpi2 import *
 import datetime
 import requests
 import time
 try:
-    from settings import API_KEY, NAME
+    from settings import API_KEY, NAME, DEBUG
 except ImportError:
     raise SystemExit('settings.py not found')
 
@@ -26,18 +26,17 @@ def main():
     setup()
     counter = 0
     pots = 0
+    now = time.time()
     while True:
         # Light
-        if counter >= 0:
-            counter = int(1E8)  # Reset counter
+        if now + 20 < time.time():
+            now = time.time()  # Reset timer
             update_light()
 
         # Coffee
-        if digitalRead(BUTTON_PIN):
+        if digitalRead(BUTTON_PIN) == 0:
             pots += 1
             update_coffee(pots)
-
-        counter -= 1
 
 
 def update_coffee(pots):
