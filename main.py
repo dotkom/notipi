@@ -19,6 +19,8 @@ OUTPUT = 1
 HIGH = 1
 LOW = 0
 
+PUD_UP = 2
+
 URL = "http://passoa.online.ntnu.no/notiwire/" + NAME + '/'
 
 
@@ -75,6 +77,7 @@ def setup():
     digitalWrite(LED_PIN, HIGH)
     pinMode(LIGHT_PIN, INPUT)
     pinMode(BUTTON_PIN, INPUT)
+    pullUpDnControl(BUTTON_PIN, PUD_UP)
 
 
 def blink(n=1):
