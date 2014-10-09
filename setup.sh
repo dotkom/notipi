@@ -1,5 +1,5 @@
-sudo apt-get install htop supervisor vim python-dev python-pip git curl
-sudo rm /etc/localtime
+sudo apt-get install htop supervisor vim python-dev python-pip git curl ntp
+sudo rm /etc/localtime >> /dev/null
 sudo ln -s /usr/share/zoneinfo/Europe/Oslo /etc/localtime
 sudo sh -c "echo 'XKBMODEL=\"pc105\"\nXKBLAYOUT=\"no\"' > /etc/default/keyboard"
 sudo pip install virtualenvwrapper
