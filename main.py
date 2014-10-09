@@ -37,7 +37,7 @@ class Coffee(Pin):
         self.notipi.blink(2)
         # Date formatted like '06. October 2014 13:13:19'
         coffee_date = datetime.datetime.now().strftime('%m. %B %Y %H:%M:%S')
-        self.post(relative_url, {'pots': self.pots, 'datetime': coffee_date})
+        self.post({'pots': self.pots, 'datetime': coffee_date})
         time.sleep(1)
         self.notipi.blink(2)
         if DEBUG:
@@ -61,7 +61,7 @@ class Light(Pin):
         #     status = 'on'
         # else:
         #     status = 'off'
-        # post('light', {'light': status})
+        # post({'light': status})
         # blink()
         # if DEBUG:
         #     print 'Light level updated:', status
@@ -89,9 +89,9 @@ class Notipi(object):
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.coffee = Coffee(self, BUTTON_PIN)
-        self.light = Light(self, LIGHT_PIN)
-        self.led = Led(self, LED_PIN)
+        self.coffee = Coffee(self, self.BUTTON_PIN)
+        self.light = Light(self, self.LIGHT_PIN)
+        self.led = Led(self, self.LED_PIN)
         self.led.blink(5)
 
     def blink(*args, **kwargs):
