@@ -74,7 +74,7 @@ class Led(Pin):
 
         GPIO.setup(self.PIN, GPIO.OUT)
 
-    def blink(n=1):
+    def blink(self, n=1):
         for _ in range(n):
             GPIO.output(self.PIN, False)
             time.sleep(0.3)
@@ -89,13 +89,14 @@ class Notipi(object):
 
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
         self.coffee = Coffee(self, self.BUTTON_PIN)
         self.light = Light(self, self.LIGHT_PIN)
         self.led = Led(self, self.LED_PIN)
-        self.led.blink(5)
+        self.blink(5)
 
-    def blink(*args, **kwargs):
-        self.led(*args, **kwargs)
+    def blink(self, *args, **kwargs):
+        self.led.blink(*args, **kwargs)
 
 
 def main():
