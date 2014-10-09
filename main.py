@@ -14,9 +14,9 @@ class Pin(object):
 
     def post(self, data):
             data['api_key'] = API_KEY
-            r = requests.post(URL + self.relative_url, data=data)
+            r = requests.post(self.URL + self.relative_url, data=data)
             if DEBUG:
-                print 'POST:', URL + self.relative_url
+                print 'POST:', self.URL + self.relative_url
 
 
 class Coffee(Pin):
@@ -30,7 +30,7 @@ class Coffee(Pin):
 
         self.last = time.time()
         GPIO.setup(self.PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
+        GPIO.add_event_detect(self.PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
 
     def update(self, signal):
         self.pots += 1
@@ -51,8 +51,8 @@ class Light(Pin):
         self.notipi = notipi
         self.PIN = PIN
 
-        GPIO.setup(self.LIGHT_PIN, GPIO.IN)
-        GPIO.add_event_detect(PIN, GPIO.BOTH, callback=self.update, bouncetime=5000)
+        GPIO.setup(self.PIN, GPIO.IN)
+        GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update, bouncetime=5000)
 
     def update(self, signal):
         print 'Light:', signal
