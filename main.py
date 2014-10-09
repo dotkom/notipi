@@ -52,19 +52,17 @@ class Light(Pin):
         self.PIN = PIN
 
         GPIO.setup(self.PIN, GPIO.IN)
-        GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update, bouncetime=5000)
+        GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update, bouncetime=100)
 
     def update(self, signal):
-        print 'Light:', signal
-        # 0 = On, apparantly
-        # if digitalRead(LIGHT_PIN) == 0:
-        #     status = 'on'
-        # else:
-        #     status = 'off'
-        # post({'light': status})
-        # blink()
-        # if DEBUG:
-        #     print 'Light level updated:', status
+        if GPIO.input(self.PIN) == GPIO.LOW:
+            status = 'on'
+        else:
+            status = 'off'
+        post({'light': status})
+        blink()
+        if DEBUG:
+            print 'Light level updated:', status
 
 
 class Led(Pin):
@@ -101,6 +99,9 @@ class Notipi(object):
 
 def main():
     notipi = Notipi()
+    # TODO: Find a proper wait function, this is an ugly hack
+    GPIO.setup(30, GPIO.IN)
+    GPIO.wait_for_edge(30, GPIO.RISING)
 
 if __name__ == '__main__':
     main()
