@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from wiringpi2 import *
+import RPi.GPIO as GPIO
 import datetime
 import requests
 import time
@@ -9,9 +9,9 @@ except ImportError:
     raise SystemExit('settings.py not found')
 
 
-LIGHT_PIN = 12
-BUTTON_PIN = 13
-LED_PIN = 14
+BUTTON_PIN = 9
+LIGHT_PIN = 10
+LED_PIN = 11
 
 INPUT = 0
 OUTPUT = 1
@@ -24,21 +24,33 @@ PUD_UP = 2
 URL = "http://passoa.online.ntnu.no/notiwire/" + NAME + '/'
 
 
+class Coffee(object):
+    def __init__(self):
+        self.pots = 0
+        GPIO.add_event_detect(BUTTON_PIN, GPIO.RISING)
+        GPIO.add_event_callback(BUTTON_PIN, self.update)
+
+    def update(self):
+        print 'New pot!', self.pots
+
+
 def main():
     setup()
     counter = 0
     pots = 0
     now = time.time()
+    blink(10)
+    coffee = Coffee()
     while True:
         # Light
         if now + 20 < time.time():
             now = time.time()  # Reset timer
             update_light()
 
-        # Coffee
-        if digitalRead(BUTTON_PIN) == 0:
-            pots += 1
-            update_coffee(pots)
+        # # Coffee
+        # if digitalRead(BUTTON_PIN) == 0:
+        #     pots += 1
+        #     update_coffee(pots)
 
 
 def update_coffee(pots):
@@ -72,19 +84,19 @@ def post(relative_url, data):
 
 
 def setup():
-    wiringPiSetup()
-    pinMode(LED_PIN, OUTPUT)
-    digitalWrite(LED_PIN, HIGH)
-    pinMode(LIGHT_PIN, INPUT)
-    pinMode(BUTTON_PIN, INPUT)
-    pullUpDnControl(BUTTON_PIN, PUD_UP)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(LIGHT_PIN, GPIO.IN)
+    GPIO.setup(LED_PIN, GPIO.OUT)
+
+    GPIO.add_event_detect(BUTTON_PIN, GPIO.RISING)
 
 
 def blink(n=1):
     for _ in range(n):
-        digitalWrite(LED_PIN, LOW)
+        GPIO.output(LED_PIN, LOW)
         time.sleep(0.3)
-        digitalWrite(LED_PIN, HIGH)
+        GPIO.output(LED_PIN, HIGH)
         time.sleep(0.3)
 
 if __name__ == '__main__':

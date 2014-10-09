@@ -1,2 +1,3 @@
 requests==2.4.3
 wiringpi2==1.0.10
+RPi.GPIO==0.5.7
