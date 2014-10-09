@@ -14,6 +14,7 @@ mkvirtualenv notipi
 setvirtualenvproject
 pip install -r requirements.txt
 sudo sh -c "echo '[program:notipi]\nuser=root\ncommand=/home/pi/.virtualenvs/notipi/bin/python /home/pi/notipi/main.py' > /etc/supervisor/conf.d/notipi.conf"
+sudo sh -c "echo '\n*/10 * * * * /home/pi/notipi/update.sh' >> /etc/crontab"
 echo '----------------------------'
 echo 'Remember to edit settings.py'
 echo '----------------------------'
