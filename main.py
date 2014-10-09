@@ -59,8 +59,8 @@ class Light(Pin):
             status = 'on'
         else:
             status = 'off'
-        post({'light': status})
-        blink()
+        self.post({'light': status})
+        self.notipi.blink()
         if DEBUG:
             print 'Light level updated:', status
 
