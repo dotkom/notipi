@@ -2,20 +2,16 @@
 import RPi.GPIO as GPIO
 import datetime
 import requests
+import settings
 import time
-try:
-    from settings import API_KEY, NAME, DEBUG
-except ImportError:
-    raise SystemExit('settings.py not found')
-
 
 class Pin(object):
-    URL = "http://passoa.online.ntnu.no/notiwire/" + NAME + '/'
+    URL = "http://passoa.online.ntnu.no/notiwire/" + settings.NAME + '/'
 
     def post(self, data):
-            data['api_key'] = API_KEY
+            data['api_key'] = settings.API_KEY
             r = requests.post(self.URL + self.relative_url, data=data)
-            if DEBUG:
+            if settings.DEBUG:
                 print 'POST:', self.URL + self.relative_url
 
 
@@ -41,7 +37,7 @@ class Coffee(Pin):
         self.post({'pots': self.pots, 'datetime': coffee_date})
         time.sleep(1)
         self.notipi.blink(2)
-        if DEBUG:
+        if settings.DEBUG:
             print 'New coffee pot:', coffee_date
 
 
@@ -63,7 +59,7 @@ class Light(Pin):
             status = 'off'
         self.post({'light': status})
         self.notipi.blink()
-        if DEBUG:
+        if settings.DEBUG:
             print 'Light status updated:', status
 
 
@@ -83,16 +79,12 @@ class Led(Pin):
 
 
 class Notipi(object):
-    BUTTON_PIN = 9
-    LIGHT_PIN = 10
-    LED_PIN = 11
-
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
-        self.coffee = Coffee(self, self.BUTTON_PIN)
-        self.light = Light(self, self.LIGHT_PIN)
-        self.led = Led(self, self.LED_PIN)
+        self.coffee = Coffee(self, settings.BUTTON_PIN)
+        self.light = Light(self, settings.LIGHT_PIN)
+        self.led = Led(self, settings.LED_PIN)
         self.blink(5)
 
     def blink(self, *args, **kwargs):

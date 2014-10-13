@@ -1,4 +1,4 @@
-API_KEY = 'API_KEY_HERE'
-NAME = 'NAME'  # ex: solan
+API_KEY = '123'
+NAME = 'DEBUG'  # ex: solan
 
-DEBUG = 1
+DEBUG = 0
