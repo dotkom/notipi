@@ -86,9 +86,9 @@ class Notipi(object):
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
+        self.led = Led(self, settings.LED_PIN)
         self.coffee = Coffee(self, settings.BUTTON_PIN)
         self.light = Light(self, settings.LIGHT_PIN)
-        self.led = Led(self, settings.LED_PIN)
         self.blink(5)
 
     def blink(self, *args, **kwargs):
