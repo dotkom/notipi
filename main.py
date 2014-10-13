@@ -30,6 +30,7 @@ class Coffee(Pin):
 
         self.last = time.time()
         GPIO.setup(self.PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
 
     def update(self, signal):
@@ -52,6 +53,7 @@ class Light(Pin):
         self.PIN = PIN
 
         GPIO.setup(self.PIN, GPIO.IN)
+        # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update, bouncetime=100)
 
     def update(self, signal):
@@ -99,9 +101,9 @@ class Notipi(object):
 
 def main():
     notipi = Notipi()
-    # TODO: Find a proper wait function, this is an ugly hack
-    GPIO.setup(30, GPIO.IN)
-    GPIO.wait_for_edge(30, GPIO.RISING)
+    # Wait forever
+    while True:
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
