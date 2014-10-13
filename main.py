@@ -34,7 +34,7 @@ class Coffee(Pin):
         self.pots += 1
         self.notipi.blink(2)
         # Date formatted like '06. October 2014 13:13:19'
-        coffee_date = datetime.datetime.now().strftime('%m. %B %Y %H:%M:%S')
+        coffee_date = datetime.datetime.now().strftime('%d. %B %Y %H:%M:%S')
         self.post({'pots': self.pots, 'datetime': coffee_date})
         time.sleep(1)
         self.notipi.blink(2)
