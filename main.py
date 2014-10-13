@@ -52,8 +52,10 @@ class Light(Pin):
         GPIO.setup(self.PIN, GPIO.IN)
         # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update)
+        # Update once when starting
+        self.update()
 
-    def update(self, signal):
+    def update(self, signal=0):
         time.sleep(0.2)
         if GPIO.input(self.PIN) == GPIO.LOW:
             status = 'on'
