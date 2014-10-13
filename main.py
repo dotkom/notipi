@@ -5,6 +5,7 @@ import requests
 import settings
 import time
 
+
 class Pin(object):
     URL = "http://passoa.online.ntnu.no/notiwire/" + settings.NAME + '/'
 
