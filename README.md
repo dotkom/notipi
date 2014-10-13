@@ -31,5 +31,5 @@ The Notipi setup is now complete, but it must be configured for your student org
 
 8. `cd notipi`
 9. `cp settings-example.py local.py`
-10. Edit local.py with the information you get by emailing appkom@online.ntnu.no (tell us which student organization you're from)
+10. Edit `local.py` with the information you get by emailing appkom@online.ntnu.no (tell us which student organization you're from)
 11. Reboot
