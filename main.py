@@ -60,7 +60,7 @@ class Light(Pin):
         else:
             status = 'off'
         self.post({'light': status})
-        self.notipi.blink()
+        self.notipi.blink(20)
         if settings.DEBUG:
             print 'Light status updated:', status
 
