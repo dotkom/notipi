@@ -1,7 +1,17 @@
 Notipi
 ======
 
-This is the software for the Notipis made by Omega Verksted for each affiliation (student organization in Trondheim).
+This software is made my the Application Committee in Online. The software is made for the Notipis that are built by Omega Verksted for each student organization in Trondheim, Norway.
+
+The software delivers data to a server running [Online Notiwire](https://github.com/appKom/notiwire/), which in turn delivers data to [Online Notifier](https://github.com/appKom/notifier/). Online Notifier is a free + ad-free browser extension that may be added from here:
+* http://bit.ly/NotifierForChrome
+* http://bit.ly/NotifierForOpera
+
+Both Online and OmegaV are student unions at NTNU in Trondheim, Norway. Feel free to contact us.
+* appkom@online.ntnu.no (Notipi software)
+* omegav@omegav.no (Notipi hardware)
+
+If your student union wants to purchase a Notipi, contact Omega Verksted.
 
 Installation
 ------------
