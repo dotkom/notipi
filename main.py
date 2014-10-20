@@ -25,12 +25,16 @@ class Coffee(Pin):
         self.notipi = notipi
         self.PIN = PIN
 
-        self.last = time.time()
+        self.day = datetime.date.today()
         GPIO.setup(self.PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
 
     def update(self, signal):
+        today = datetime.date.today()
+        if today > self.day:
+            self.pots = 0
+            self.day = today
         self.pots += 1
         self.notipi.blink(2)
         # Date formatted like '06. October 2014 13:13:19'
