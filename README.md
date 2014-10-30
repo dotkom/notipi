@@ -1,6 +1,10 @@
 Notipi
 ======
 
+For students at NTNU or HiST, Trondheim, Norway.
+
+If your student union ("linjeforening") wants to purchase a Notipi, contact Omega Verksted. Notipi allows your student union to get even more out of [Online Notifier](https://github.com/appKom/notifier/): Coffee status, office status (open/closed), meeting status and more.
+
 This software is made my the Application Committee in Online. The software is made for the Notipis that are built by Omega Verksted for each student organization in Trondheim, Norway.
 
 The software delivers data to a server running [Online Notiwire](https://github.com/appKom/notiwire/), which in turn delivers data to [Online Notifier](https://github.com/appKom/notifier/). Online Notifier is a free + ad-free browser extension that may be added from here:
@@ -11,10 +15,19 @@ Both Online and OmegaV are student unions at NTNU in Trondheim, Norway. Feel fre
 * appkom@online.ntnu.no (Notipi software)
 * omegav@omegav.no (Notipi hardware)
 
-If your student union wants to purchase a Notipi, contact Omega Verksted.
+Which student unions have a Notipi?
+-----------------------------------
 
-Installation
-------------
+In chronological order:
+1. Online (home made, with a big red button)
+2. Delta (home made, with a screen and a "kriteliste"-function)
+3. Abakus (home made, with automatic coffee notifications, but without light sensor)
+4. Solan
+5. Nabla
+6. Høiskolens Chemikerforening
+
+Installation of this software on a Notipi
+-----------------------------------------
 
 1. Format the SD-card to the lastest version of Raspbian
 2. Boot up the Raspberry Pi and choose:
