@@ -19,6 +19,7 @@ Which student unions have a Notipi?
 -----------------------------------
 
 In chronological order:
+
 1. Online (home made, with a big red button)
 2. Delta (home made, with a screen and a "kriteliste"-function)
 3. Abakus (home made, with automatic coffee notifications, but without light sensor)
