@@ -4,6 +4,7 @@ import datetime
 import requests
 import settings
 import time
+import threading
 
 
 class Pin(object):
@@ -48,6 +49,7 @@ class Coffee(Pin):
 
 class Light(Pin):
     relative_url = 'light'
+    interval = 60 * 30  # 30min
 
     def __init__(self, notipi, PIN):
         self.notipi = notipi
@@ -57,8 +59,8 @@ class Light(Pin):
         GPIO.setup(self.PIN, GPIO.IN)
         # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update)
-        # Update once when starting
-        self.update()
+        # Update once every hour too
+        self.periodic_update()
 
     def update(self, signal=0):
         time.sleep(0.2)
@@ -73,6 +75,10 @@ class Light(Pin):
             self.notipi.blink()
             if settings.DEBUG:
                 print 'Light status updated:', status
+
+    def periodic_update(self):
+        self.update()
+        threading.Timer(self.interval, self.periodic_update).start()
 
 
 class Led(Pin):
