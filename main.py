@@ -52,6 +52,7 @@ class Light(Pin):
     def __init__(self, notipi, PIN):
         self.notipi = notipi
         self.PIN = PIN
+        self.status = None
 
         GPIO.setup(self.PIN, GPIO.IN)
         # Running in it's own thread
@@ -65,10 +66,13 @@ class Light(Pin):
             status = 'on'
         else:
             status = 'off'
-        self.post({'light': status})
-        self.notipi.blink()
-        if settings.DEBUG:
-            print 'Light status updated:', status
+        # Only update if status has changed
+        if self.status != status:
+            self.status = status
+            self.post({'light': status})
+            self.notipi.blink()
+            if settings.DEBUG:
+                print 'Light status updated:', status
 
 
 class Led(Pin):
