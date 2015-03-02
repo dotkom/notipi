@@ -36,6 +36,10 @@ Installation of this software on a Notipi
   * Change User Password (use one you'll truly remember)
   * Finish -> Reboot
 3. Log in
+4. `wget http://gg.gg/notipi -O - | sh`
+
+Alt:
+
 4. `wget http://gg.gg/notipi`
 5. `mv notipi setup.sh`
 6. `chmod +x setup.sh`
