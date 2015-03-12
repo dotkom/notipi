@@ -8,7 +8,7 @@ import threading
 
 
 class Pin(object):
-    URL = "http://passoa.online.ntnu.no/notiwire/" + settings.NAME + '/'
+    URL = "http://passoa.online.ntnu.no/notipi/" + settings.NAME + '/'
 
     def post(self, data):
             data['api_key'] = settings.API_KEY
