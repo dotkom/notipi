@@ -36,7 +36,7 @@ Installation of this software on a Notipi
   * Change User Password (use one you'll truly remember)
   * Finish -> Reboot
 3. Log in
-4. `wget http://gg.gg/notipi -O - | sh`
+4. `wget http://gg.gg/notipi -O - | bash`
 
 Alt:
 
