@@ -48,7 +48,7 @@ class Coffee(Pin):
 
 
 class Light(Pin):
-    relative_url = 'light'
+    relative_url = 'status'
     interval = 60 * 30  # 30min
 
     def __init__(self, notipi, PIN):
@@ -65,13 +65,13 @@ class Light(Pin):
     def update(self, signal=0):
         time.sleep(0.2)
         if GPIO.input(self.PIN) == GPIO.LOW:
-            status = 'on'
+            status = 'true'
         else:
-            status = 'off'
+            status = 'false'
         # Only update if status has changed
         if self.status != status:
             self.status = status
-            self.post({'light': status})
+            self.post({'status': status})
             self.notipi.blink()
             if settings.DEBUG:
                 print 'Light status updated:', status
