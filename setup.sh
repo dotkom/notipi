@@ -1,3 +1,4 @@
+sudo apt-get update
 sudo apt-get --assume-yes install htop supervisor vim python-dev python-pip git curl ntp
 sudo rm /etc/localtime >> /dev/null
 sudo ln -s /usr/share/zoneinfo/Europe/Oslo /etc/localtime
