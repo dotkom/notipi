@@ -1,3 +1,5 @@
+API_URL = 'https://passoa.online.ntnu.no/notipi/'
+
 BUTTON_PIN = 9
 LIGHT_PIN = 10
 LED_PIN = 11
