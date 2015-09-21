@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import RPi.GPIO as GPIO
 import datetime
+import logging
 import requests
 import settings
 import time
@@ -11,10 +12,10 @@ class Pin(object):
     URL = settings.API_URL + settings.NAME + '/'
 
     def post(self, data):
+            logging.debug('Ready to send a POST request for {url} with data {data}'.format(url=self.relative_url, data=data))
             data['api_key'] = settings.API_KEY
             r = requests.post(self.URL + self.relative_url, data=data)
-            if settings.DEBUG:
-                print 'POST:', self.URL + self.relative_url
+            logging.debug('POST Request sent with response {response}'.format(response=r.text))
 
 
 class Coffee(Pin):
@@ -30,6 +31,7 @@ class Coffee(Pin):
         GPIO.setup(self.PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
+        logging.info('Coffee button is ready')
 
     def update(self, signal):
         today = datetime.date.today()
@@ -43,8 +45,7 @@ class Coffee(Pin):
         self.post({'pots': self.pots, 'datetime': coffee_date})
         time.sleep(1)
         self.notipi.blink(2)
-        if settings.DEBUG:
-            print 'New coffee pot:', coffee_date
+        logging.info('New coffee pot at {date}'.format(date=datetime.datetime.now()))
 
 
 class Light(Pin):
@@ -61,6 +62,7 @@ class Light(Pin):
         GPIO.add_event_detect(self.PIN, GPIO.BOTH, callback=self.update)
         # Update once every hour too
         self.periodic_update()
+        logging.info('Light sensor is ready')
 
     def update(self, signal=0):
         time.sleep(0.2)
@@ -73,8 +75,7 @@ class Light(Pin):
             self.status = status
             self.post({'status': status})
             self.notipi.blink()
-            if settings.DEBUG:
-                print 'Light status updated:', status
+            logging.debug('Light status changed to {status}'.format(status=self.status))
 
     def periodic_update(self):
         self.update()
@@ -87,6 +88,7 @@ class Led(Pin):
         self.PIN = PIN
 
         GPIO.setup(self.PIN, GPIO.OUT)
+        logging.info('LED is ready')
 
     def blink(self, n=1):
         for _ in range(n):
@@ -94,6 +96,7 @@ class Led(Pin):
             time.sleep(0.3)
             GPIO.output(self.PIN, True)
             time.sleep(0.3)
+        logging.debug('LED blinked {times} time(s)'.format(times=n))
 
 
 class Notipi(object):
@@ -110,7 +113,13 @@ class Notipi(object):
 
 
 def main():
+    # Logging
+    log_level = logging.DEBUG if settings.DEBUG else logging.INFO
+    logging.basicConfig(format='%(asctime)s %(message)s', level=log_level)
+
+    logging.info('Starting NotiPi')
     notipi = Notipi()
+    logging.info('NotPi handlers started')
     # Wait forever
     while True:
         time.sleep(1)
