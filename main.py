@@ -12,10 +12,10 @@ class Pin(object):
     URL = settings.API_URL + settings.NAME + '/'
 
     def post(self, data=None):
-            logging.debug('Ready to send a POST request for {url} with data {data}'.format(url=self.relative_url, data=data))
             if not data:
                 data = {}
             data['api_key'] = settings.API_KEY
+            logging.debug('Ready to send a POST request for {url} with data {data}'.format(url=self.relative_url, data=data))
             r = requests.post(self.URL + self.relative_url, data=data)
             logging.debug('POST Request sent with response {response}'.format(response=r.text))
 
