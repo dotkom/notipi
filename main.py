@@ -11,7 +11,7 @@ import threading
 class Pin(object):
     URL = settings.API_URL + settings.NAME + '/'
 
-    def post(self, data):
+    def post(self, data=None):
             logging.debug('Ready to send a POST request for {url} with data {data}'.format(url=self.relative_url, data=data))
             data['api_key'] = settings.API_KEY
             r = requests.post(self.URL + self.relative_url, data=data)
@@ -27,22 +27,14 @@ class Coffee(Pin):
         self.notipi = notipi
         self.PIN = PIN
 
-        self.day = datetime.date.today()
         GPIO.setup(self.PIN, GPIO.IN, pull_up_down=settings.COFFEE_PUD)
         # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
         logging.info('Coffee button is ready')
 
     def update(self, signal):
-        today = datetime.date.today()
-        if today > self.day:
-            self.pots = 0
-            self.day = today
-        self.pots += 1
         self.notipi.blink(2)
-        # Date formatted like '06. October 2014 13:13:19'
-        coffee_date = datetime.datetime.now().strftime('%d. %B %Y %H:%M:%S')
-        self.post({'pots': self.pots, 'datetime': coffee_date})
+        self.post()
         time.sleep(1)
         self.notipi.blink(2)
         logging.info('New coffee pot at {date}'.format(date=datetime.datetime.now()))
