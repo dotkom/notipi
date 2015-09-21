@@ -28,7 +28,7 @@ class Coffee(Pin):
         self.PIN = PIN
 
         self.day = datetime.date.today()
-        GPIO.setup(self.PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.PIN, GPIO.IN, pull_up_down=settings.COFFEE_PUD)
         # Running in it's own thread
         GPIO.add_event_detect(self.PIN, GPIO.RISING, callback=self.update, bouncetime=5000)
         logging.info('Coffee button is ready')
@@ -66,7 +66,7 @@ class Light(Pin):
 
     def update(self, signal=0):
         time.sleep(0.2)
-        if GPIO.input(self.PIN) == GPIO.LOW:
+        if GPIO.input(self.PIN) == settings.LIGHT_DIRECTION:
             status = 'true'
         else:
             status = 'false'
