@@ -1,18 +1,12 @@
-import RPi.GPIO as GPIO
-
 API_URL = 'https://passoa.online.ntnu.no/notipi/'
+ZWAVE_URL = 'localhost:8083/ZAutomation/api/v1/devices/'
 
-BUTTON_PIN = 9
-LIGHT_PIN = 10
-LED_PIN = 11
-
-# Direction for lights on
-LIGHT_DIRECTION = GPIO.LOW
-# Pull up down
-COFFEE_PUD = GPIO.PUD_UP
 
 NAME = 'DEBUG'
 API_KEY = '123'
+
+ZWAVE_USER = ''
+ZWAVE_PASSWORD = ''
 
 DEBUG = 1
 

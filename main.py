@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import RPi.GPIO as GPIO
 import datetime
 import logging
 import requests
@@ -46,9 +45,8 @@ class Light(Pin):
     relative_url = 'status'
     interval = 60 * 30  # 30min
 
-    def __init__(self, notipi, PIN):
+    def __init__(self, notipi):
         self.notipi = notipi
-        self.PIN = PIN
         self.status = None
 
         GPIO.setup(self.PIN, GPIO.IN)
@@ -76,34 +74,10 @@ class Light(Pin):
         threading.Timer(self.interval, self.periodic_update).start()
 
 
-class Led(Pin):
-    def __init__(self, notipi, PIN):
-        self.notipi = notipi
-        self.PIN = PIN
-
-        GPIO.setup(self.PIN, GPIO.OUT)
-        logging.info('LED is ready')
-
-    def blink(self, n=1):
-        for _ in range(n):
-            GPIO.output(self.PIN, False)
-            time.sleep(0.3)
-            GPIO.output(self.PIN, True)
-            time.sleep(0.3)
-        logging.debug('LED blinked {times} time(s)'.format(times=n))
-
-
 class Notipi(object):
     def __init__(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        self.led = Led(self, settings.LED_PIN)
-        self.coffee = Coffee(self, settings.BUTTON_PIN)
-        self.light = Light(self, settings.LIGHT_PIN)
-        self.blink(5)
-
-    def blink(self, *args, **kwargs):
-        self.led.blink(*args, **kwargs)
+        self.coffee = Coffee(self)
+        self.light = Light(self)
 
 
 def main():
