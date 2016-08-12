@@ -10,6 +10,10 @@ from pprint import pprint
 from threading import Thread
 
 
+def update():
+    print 'updated'
+
+
 class Coffe:
     def __init__(self):
         self.stopped = False
@@ -36,8 +40,8 @@ class Coffe:
                 for device in devices:
                     if device['metrics']['title'] == 'Kaffe_effekt':
                         level = device['metrics']['level']
-                        if level > 100:
-                            print level
+                        if level > 0:
+                            update()
             except:
                 # TODO: HANDLE EXCEPTIONS
                 pass
