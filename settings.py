@@ -1,5 +1,5 @@
 API_URL = 'https://passoa.online.ntnu.no/notipi/'
-ZWAVE_URL = 'localhost:8083/ZAutomation/api/v1/devices/'
+ZWAVE_URL = 'http://localhost:8083/ZAutomation/api/v1/devices/'
 
 
 NAME = 'DEBUG'
