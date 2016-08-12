@@ -6,6 +6,7 @@ from requests.auth import HTTPBasicAuth
 import json
 import settings
 import time
+from pprint import pprint
 from threading import Thread
 
 
@@ -22,16 +23,21 @@ class Coffe:
     def update(self):
         # keep looping infinitely until the thread is stopped
         while True:
-            time.sleep(5)
+            time.sleep(10)
             # if the thread indicator variable is set, stop the thread
             if self.stopped:
                 return
 
             # otherwise, read the next frame from the stream
             try:
-                r = requests.get(settings.ZWAVE_URL, auth=HTTPBasicAuth('user', 'pass'))
-                data = r.json()
-                print data
+                r = requests.get(settings.ZWAVE_URL, auth=HTTPBasicAuth('', ''))
+                data = r.json()['data']
+                devices = data['devices']
+                for device in devices:
+                    if device['metrics']['title'] == 'Kaffe_effekt':
+                        level = device['metrics']['level']
+                        if level > 100:
+                            print level
             except:
                 # TODO: HANDLE EXCEPTIONS
                 pass
