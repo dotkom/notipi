@@ -8,6 +8,8 @@ API_KEY = ''
 ZWAVE_USER = ''
 ZWAVE_PASSWORD = ''
 
+POLLING_FREQUENCY = 10
+
 DEBUG = 1
 
 try:

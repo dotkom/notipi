@@ -21,7 +21,18 @@ def update_notiwire(data=None, relative_url=''):
 
 class Coffe:
     def __init__(self):
+        self.stopped = False
+
+    def start(self):
         pass
+
+
+    def update(self):
+        pass
+
+
+    def stop(self):
+        self.stopped = True
 
 
 class Light:
@@ -39,7 +50,7 @@ class Light:
         last_update = 0 # TODO initialize with current value?
         auth = HTTPBasicAuth(settings.ZWAVE_USER, settings.ZWAVE_PASSWORD)
         while True:
-            time.sleep(10)
+            time.sleep(settings.POLLING_FREQUENCY)
             if self.stopped:
                 return
             try:
@@ -69,8 +80,8 @@ class Light:
 
 class Notipi(object):
     def __init__(self):
-        light = Light().start()
-        # coffe = Coffe().start()
+        Light().start()
+        #Coffe().start()
 
 
 def main():
