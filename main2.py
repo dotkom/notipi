@@ -26,10 +26,8 @@ class Coffe:
     def start(self):
         pass
 
-
     def update(self):
         pass
-
 
     def stop(self):
         self.stopped = True
@@ -47,14 +45,15 @@ class Light:
         return self
 
     def update(self):
-        last_update = 0 # TODO initialize with current value?
+        last_update = 0  # TODO initialize with current value?
+        last_update_to_notiwire = 0
         auth = HTTPBasicAuth(settings.ZWAVE_USER, settings.ZWAVE_PASSWORD)
         while True:
             time.sleep(settings.POLLING_FREQUENCY)
             if self.stopped:
                 return
             try:
-                requests.get(settings.ZWAVE_URL_LIGHT+'/command/update', auth=auth)
+                requests.get(settings.ZWAVE_URL_LIGHT + '/command/update', auth=auth)
                 r = requests.get(settings.ZWAVE_URL_LIGHT, auth=auth)
                 json = r.json()['data']
                 current_update = json['updateTime']
@@ -65,9 +64,12 @@ class Light:
                 else:
                     status = 'true'
                     logging.info('lights are on')
-                if status != self.status:
+
+                # Update if light changes, or last update was more than 30 minutes ago
+                if status != self.status or time.time() - last_update_to_notiwire > 60*30:
                     self.status = status
                     update_notiwire(data={'status': status}, relative_url='status')
+                    last_update_to_notiwire = time.time()
 
                 last_update = current_update
 
@@ -81,7 +83,7 @@ class Light:
 class Notipi(object):
     def __init__(self):
         Light().start()
-        #Coffe().start()
+        # Coffe().start()
 
 
 def main():
@@ -94,6 +96,7 @@ def main():
     # Wait forever
     while True:
         time.sleep(1)
+
 
 if __name__ == '__main__':
     main()
