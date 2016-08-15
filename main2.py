@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import logging
 import time
+import datetime
 from threading import Thread
 
 import requests
@@ -24,10 +25,34 @@ class Coffe:
         self.stopped = False
 
     def start(self):
-        pass
+        t = Thread(target=self.update, args=())
+        t.daemon = True
+        t.start()
+        return self
 
     def update(self):
-        pass
+        last_update = 0
+        auth = HTTPBasicAuth(settings.ZWAVE_USER, settings.ZWAVE_PASSWORD)
+        while True:
+            time.sleep(settings.POLLING_FREQUENCY)
+            if self.stopped:
+                return
+            try:
+                requests.get(settings.ZWAVE_URL_COFFEE + '/command/update', auth=auth)
+                r = requests.get(settings.ZWAVE_URL_COFFEE, auth=auth)
+                json = r.json()['data']
+                current_update = json['updateTime']
+                current_effect = json['metrics']['level']
+                if current_effect > 1000:
+                    # COFFEE IS BOILING
+                    update_notiwire(relative_url='coffee')
+                    logging.info('New coffee pot at {date}'.format(date=datetime.datetime.now()))
+                    time.sleep(60*7.5)
+
+            except requests.exceptions.RequestException as e:
+                logging.error(e)
+
+
 
     def stop(self):
         self.stopped = True
@@ -66,7 +91,7 @@ class Light:
                     logging.info('lights are on')
 
                 # Update if light changes, or last update was more than 30 minutes ago
-                if status != self.status or time.time() - last_update_to_notiwire > 60*30:
+                if status != self.status or time.time() - last_update_to_notiwire > 60 * 30:
                     self.status = status
                     update_notiwire(data={'status': status}, relative_url='status')
                     last_update_to_notiwire = time.time()
@@ -83,7 +108,7 @@ class Light:
 class Notipi(object):
     def __init__(self):
         Light().start()
-        # Coffe().start()
+        Coffe().start()
 
 
 def main():
