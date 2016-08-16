@@ -43,16 +43,19 @@ class Coffe:
                 json = r.json()['data']
                 current_update = json['updateTime']
                 current_effect = json['metrics']['level']
+                if current_update == last_update:
+                    logging.info("Coffeesensor is unpowered")
+                    last_update = current_update
+                    continue
                 if current_effect > 1000:
                     # COFFEE IS BOILING
                     update_notiwire(relative_url='coffee')
                     logging.info('New coffee pot at {date}'.format(date=datetime.datetime.now()))
-                    time.sleep(60*7.5)
+                    time.sleep(60*10)
+                last_update = current_update
 
             except requests.exceptions.RequestException as e:
                 logging.error(e)
-
-
 
     def stop(self):
         self.stopped = True
