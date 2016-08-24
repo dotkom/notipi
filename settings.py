@@ -1,7 +1,6 @@
 API_URL = 'https://passoa.online.ntnu.no/notipi/'
-ZWAVE_URL_LIGHT = 'http://129.241.104.252:8083/ZAutomation/api/v1/devices/ZWayVDev_zway_2-0-50-2'
-ZWAVE_URL_COFFEE = 'http://129.241.104.252:8083/ZAutomation/api/v1/devices/ZWayVDev_zway_3-0-50-2'
-
+ZWAVE_URL_LIGHT = ''
+ZWAVE_URL_COFFEE = ''
 
 NAME = ''
 API_KEY = ''

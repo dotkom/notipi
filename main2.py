@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+import datetime
 import logging
 import time
-import datetime
 from threading import Thread
 
 import requests
@@ -51,7 +51,9 @@ class Coffe:
                     # COFFEE IS BOILING
                     update_notiwire(relative_url='coffee')
                     logging.info('New coffee pot at {date}'.format(date=datetime.datetime.now()))
-                    time.sleep(60*10)
+                    last_update = current_update
+                    time.sleep(60 * 10)
+                    continue
                 last_update = current_update
 
             except requests.exceptions.RequestException as e:
@@ -73,7 +75,7 @@ class Light:
         return self
 
     def update(self):
-        last_update = 0  # TODO initialize with current value?
+        last_update = 0
         last_update_to_notiwire = 0
         auth = HTTPBasicAuth(settings.ZWAVE_USER, settings.ZWAVE_PASSWORD)
         while True:
@@ -96,6 +98,8 @@ class Light:
                 # Update if light changes, or last update was more than 30 minutes ago
                 if status != self.status or time.time() - last_update_to_notiwire > 60 * 30:
                     self.status = status
+                    logging.info("Lightstatus changed at {date}, light status is now {status}"
+                                 .format(date=datetime.datetime.now(), status=status))
                     update_notiwire(data={'status': status}, relative_url='status')
                     last_update_to_notiwire = time.time()
 
